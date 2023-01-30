@@ -22,7 +22,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className='md:h-[5rem] h-[3.3rem] flex items-center justify-between md:px-4 px-2 md:bg-gray-700 bg-white sticky z-index-10 left-0'>
+    <nav className='md:h-[5rem] h-[3.3rem] flex items-center justify-between md:px-4 px-2 md:bg-gray-700 bg-red-700 sticky z-index-10 left-0'>
       <div className="md:h-[4rem] h-[3rem] flex items-center mr-8">
         <img src={process.env.PUBLIC_URL+'/images/pngwing.com.png'} alt='buy24/7' />
       </div>
