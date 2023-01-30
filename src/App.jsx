@@ -5,24 +5,22 @@ import Home from "./pages/home/Home";
 import Products from "./pages/products/Products";
 import { useGlobalContext } from './contexts/GlobalContextProvider';
 import Footer from './components/Footer';
-import ProductsCategories from './pages/products/ProductsCategories';
-import ProductsSearch from './pages/products/ProductsSearch';
 import ScrollToTop from './helpers/ScrollToTop';
+import ProductDetail from './pages/products/ProductDetail';
 
 function App() {
 
   const { openModal } = useGlobalContext()
 
   return (
-    <main className="">
+    <main className="bg-gray-100">
       <Navbar />
       <ScrollToTop />
       {openModal && <PopupModal />}
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/products' element={<Products />} />
-        <Route path='/products/categories' element={<ProductsCategories />} />
-        <Route path='/products/search' element={<ProductsSearch />} />
+        <Route path='/product/detail/:productId' element={<ProductDetail />} />
       </Routes>
       <Footer />
     </main>

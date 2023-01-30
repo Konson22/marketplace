@@ -14,42 +14,42 @@ export default function ProductsNav() {
 
     const handleQuerySearch = e => {
         e.preventDefault()
-        navigate(`/products/search?q=${inputRef.current.value}`)
+        navigate(`/products?search=${inputRef.current.value}`)
     }
 
   return (
     <div className="flex items-center justify-between border-b py-3 md:px-[5%] px-2">
         <ul className="md:flex hidden">
-            <li className="flex border cursor-pointer py-2 px-3 mr-3">
-                <Link to='/products/categories'> All </Link>
+            <li className="flex border cursor-pointer py-2 px-3 bg-white mr-3">
+                <Link to='/products'> All </Link>
             </li>
             {categories2.map(category => (
-                <li className="flex border p-2 cursor-pointer mr-2" key={category.path}>
-                    <Link to={`/products/categories?q=${category.path}`}>
+                <li className="flex border p-2 cursor-pointer bg-white mr-2" key={category.path}>
+                    <Link to={`/products?category=${category.path}`}>
                         {category.title}
                     </Link>
                 </li>
             ))}
         </ul>
         <div 
-            className="h-[2.8rem] md:hidden flex items-center bg-gray-100 rounded-l relative cursor-pointer px-2 mr-2 border"
+            className="h-[2.8rem] md:hidden flex items-center bg-white rounded-l relative cursor-pointer px-2 border"
             onClick={() => setOpen(!open)}
         >
             <span>Filter</span>
             <FaChevronDown className={`text-sm opacity-7 ml-2 duration-300 ${open ? 'rotate-180':''}`} />
-            {open && <div className="absolute top-[105%] w-[200%] left-0 bg-gray-100 rounded border-2 px-4">
-                <Link className='py-1 cursor-pointer w-full block' to='/products/categories'>
+            {open && <div className="absolute top-[105%] w-[200%] left-0 bg-white rounded border-2 px-4">
+                <Link className='py-1 cursor-pointer w-full block' to='/products'>
                     All
                 </Link>
                 {categories2.map(category => (
-                <Link className='py-1 cursor-pointer w-full block' to={`/products/categories?q=${category.path}`} key={category.path}>
+                <Link className='py-1 cursor-pointer w-full block' to={`/products?category=${category.path}`} key={category.path}>
                     {category.title}
                 </Link>
                 ))}
             </div>}
         </div>
         <form 
-            className="flex h-[2.8rem] flex-1 bg-gray-100 rounded relative" 
+            className="flex h-[2.8rem] flex-1 bg-white rounded relative border" 
             onClick={() => setOpen(false)}
             onSubmit={handleQuerySearch}
         >

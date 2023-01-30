@@ -14,7 +14,7 @@ export default function Categories() {
                 backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 65%, rgba(0, 0, 0, 0.8)), url(${category.image})`, 
                 backgroundSize:'100% 100%'
               }}
-              to={`/products/categories?q=${category.path}`}
+              to={`/products?category=${category.path}`}
             >
               <p className="md:text-xl md:font-bold font-semibold">{category.title}</p>
             </Link>

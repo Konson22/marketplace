@@ -18,7 +18,7 @@ export const categories2 = [
     {
         title:'Fragrances',
         path:'fragrances',
-        image:process.env.PUBLIC_URL+'/images/photo-1522771739844-6a9f6d5f14af.jpg'
+        image:process.env.PUBLIC_URL+'/images/fragrances.jpg'
     },
     {
         title:'Health & Beauty',
@@ -28,7 +28,7 @@ export const categories2 = [
     {
         title:'Home decoration',
         path:'home-decoration',
-        image:process.env.PUBLIC_URL+'/images/kitchen-1940174__340.jpg'
+        image:process.env.PUBLIC_URL+'/images/furniture-635613__340.jpg'
     },
     {
         title:'Groceries',

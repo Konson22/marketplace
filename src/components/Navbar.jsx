@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { useRef, useState } from 'react'
 import { FaChevronDown } from 'react-icons/fa'
-import { FiBell } from 'react-icons/fi'
+import { FiBell, FiUser } from 'react-icons/fi'
 import { categories2 } from '../assets/data'
 import { useNavigate  } from 'react-router-dom'
 import { useGlobalContext } from '../contexts/GlobalContextProvider'
@@ -22,7 +22,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className='md:h-[5rem] h-[3.3rem] flex items-center justify-between md:px-4 px-2 md:bg-gray-700 bg-red-600 sticky z-index-10 left-0'>
+    <nav className='md:h-[5rem] h-[3.3rem] flex items-center justify-between md:px-4 px-2 md:bg-gray-700 bg-white sticky z-index-10 left-0'>
       <div className="md:h-[4rem] h-[3rem] flex items-center mr-8">
         <img src={process.env.PUBLIC_URL+'/images/pngwing.com.png'} alt='buy24/7' />
       </div>
@@ -68,7 +68,7 @@ export default function Navbar() {
           <button type='submit' className="h-full bg-red-600 text-white px-3">Search</button>
         </form>
       </div>
-      <div className="flex items-center ml-3 text-white">
+      <div className="flex items-center ml-3 md:text-white">
         <button 
           className="md:h-[2.8rem] h-[2.2rem] border-none px-4 md:bg-red-600 bg-red-400 rounded" 
           onClick={() => setOpenModal('upload')}
@@ -83,14 +83,17 @@ export default function Navbar() {
           <FiPlus className='text-2xl' />
         </div> */}
         <div className="flex items-center justify-center rounded-full overflow-hidden md:mx-3 mx-2">
-          <FiBell className='text-3xl' />
+          <FiBell className='md:text-3xl text-[1.5rem]' />
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center justify-center rounded-full overflow-hidden md:mx-3 mx-2">
+          <FiUser className='md:text-3xl text-[1.5rem]' />
+        </div>
+        {/* <div className="flex items-center">
           <div className="md:h-[2rem] h-[2.2rem] md:w-[2rem] rounded-full overflow-hidden">
-            <img src={process.env.PUBLIC_URL+'/images/kon.png'} alt='buy24/7' />
+            <img src={process.env.PUBLIC_URL+'/images/user.png'} alt='buy24/7' />
           </div>
           <span className="text-sm md:block hidden ml-2">Kon</span>
-        </div>
+        </div> */}
       </div>
     </nav>
   )

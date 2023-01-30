@@ -1,4 +1,4 @@
-import products from '../assets/products.json'
+import products from '../assets/products2.json'
 import { useState, useContext, createContext, useEffect } from 'react'
 import axiosInstance from '../helpers/axiosInstance'
 
