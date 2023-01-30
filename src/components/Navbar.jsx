@@ -68,7 +68,7 @@ export default function Navbar() {
           <button type='submit' className="h-full bg-red-600 text-white px-3">Search</button>
         </form>
       </div>
-      <div className="flex items-center ml-3 md:text-white">
+      <div className="flex items-center ml-3 text-white">
         <button 
           className="md:h-[2.8rem] h-[2.2rem] border-none px-4 md:bg-red-600 bg-red-400 rounded" 
           onClick={() => setOpenModal('upload')}
