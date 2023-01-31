@@ -21,10 +21,8 @@ export default function ItemsContextProvider({children}) {
     async function fetchItems(){
       setLoading(true)
       try{
-        // const results = await axios('https://dummyjson.com/products').then(res => res)
-        const results = await axiosInstance('http://localhost:3002/items').then(res => res)
+        const results = await axiosInstance('http://localhost:30011/items').then(res => res)
         isMuted && setItems(results.data)
-        // isMuted && setItems(results.data.products)
       }catch(error){
         if(error.status === 404 || error.status === 403 || error.status === 500){
           return setError(error?.response?.data)

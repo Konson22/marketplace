@@ -49,7 +49,7 @@ export default function ProductsNav() {
             </div>}
         </div>
         <form 
-            className="flex h-[2.8rem] flex-1 bg-white rounded relative border" 
+            className="flex h-[2.8rem] flex-1 bg-white rounded relative border z-10" 
             onClick={() => setOpen(false)}
             onSubmit={handleQuerySearch}
         >

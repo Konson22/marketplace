@@ -1,43 +1,122 @@
-import { FaTimes } from "react-icons/fa"
+import { useState } from "react"
+import { FaRegImages, FaTimes } from "react-icons/fa"
+import { categories2 } from "../../assets/data"
 import { useGlobalContext } from "../../contexts/GlobalContextProvider"
+import InputField from "./InputField"
+import axios from 'axios'
+import { useItems } from "../../contexts/ItemsContextProvider"
+
 
 export default function Upload() {
 
-  const { setOpenModal } = useGlobalContext()
+    const { setOpenModal } = useGlobalContext()
+
+    const { setItems } = useItems()
+    const [loading, setLoading] = useState(false)
+    const [message, setMessage] = useState('')
+    const [uploadPercentage, setUploadPercentage] = useState(0)
+
+
+    const handleSubmit = async ev => {
+        ev.preventDefault()
+        setLoading(true)
+        try {
+            const formData = new FormData(ev.target)
+            const result = await axios.post('http://localhost:3001/items/upload', formData, postOptions).then(res => res)
+            setItems(prevItems => {
+                return [...prevItems, result.data]
+            })
+        } catch (error) {
+            setMessage(error?.response?.data)
+        }finally{
+            setLoading(false)
+        }
+    }
+    
+    //AXIOS HEADER OPTIONS
+    const postOptions = {
+        widthCredentials:true, 
+        withCredentials:'include',
+        onUploadProgress:percentageLoaded => {
+        const {total, loaded} = percentageLoaded
+        const percent = Math.floor((loaded / total) * 100)
+        percent <= 100 && setUploadPercentage(percent)
+        }
+    }
+
 
   return (
-    <div className='md:w-[30%] w-full md:p-6 p-4 m-4 rounded bg-white relative' onClick={e => e.stopPropagation()}>
-        <div className="absolute right-2 top-2" onClick={() => setOpenModal(null)}>
+    <div className='md:w-[40%] w-full md:p-8 p-4 m-4 rounded bg-white relative' onClick={e => e.stopPropagation()}>
+        {loading && <FormLoader uploadPercentage={uploadPercentage} />}
+        <div className="absolute right-4 top-4" onClick={() => setOpenModal(null)}>
             <FaTimes className='' />
         </div>
-        <h1 className="text-xl font-bold">Upload</h1>
-        <span className="text-xl font-bold text-red-400">work still on progress...</span>
-        <form className='mt-4'>
-            <div className="mb-3">
-                <label htmlFor='title'>Title</label>
-                <input className='h-10 bg-gray-100 focus:border-none focus:outline-none bg-transparent w-full border-none' />
-            </div>
-            <div className="mb-3">
-                <label htmlFor='title'>Price</label>
-                <input className='h-10 bg-gray-100 focus:border-none focus:outline-none bg-transparent w-full border-none' />
-            </div>
-            <div className="mb-3">
-                <label htmlFor='title'>Address</label>
-                <input className='h-10 bg-gray-100 focus:border-none focus:outline-none bg-transparent w-full border-none' />
-            </div>
-            <div className="mb-3">
-                <label htmlFor='title'>Disciption</label>
-                <input className='h-16 bg-gray-100 focus:border-none focus:outline-none bg-transparent w-full border-none' />
-            </div>
+        <div className="myb4">
+            <h1 className="text-2xl font-bold">Upload your Item</h1>
+            <MessagesCard text='Still under work!' type='bg-red-200' />
+            {message && <MessagesCard text={message} type='bg-red-200' onClose={setMessage} />}
+            {uploadPercentage === 100 && 
+                <MessagesCard text='Uploaded successfully!' type='bg-green-200' onClose={setUploadPercentage} />
+            }
+        </div>
+        <form className='mt-4' onSubmit={handleSubmit}>
+            {fields.map(field => (
+                <InputField placeholder={field.placeholder} label={field.label} name={field.name} type={field.type} options={field.options} />
+            ))}
+             <label className='flex items-center cursor-pointer' htmlFor="image" >
+                <span className="px-4 py-2 rounded bg-green-600 text-white mr-3"><FaRegImages className='text-2xl' /></span>
+                Choose
+            </label>
+            <input className='hidden' name='image' id='image' type="file" />
             <div className="flex mt-6">
-                <button className="px-3 py-2 rounded border-none bg-green-700 mr-3 text-white">Submit</button>
-                <button className="px-3 py-2 rounded border-none bg-red-700 text-white">Cancel</button>
+                <button className="px-3 py-2 rounded border-none bg-green-700 mr-3 text-white" type='submit'>Submit</button>
+                <button 
+                    className="px-3 py-2 rounded border-none bg-red-700 text-white" 
+                    type='button'
+                    onClick={() => setOpenModal(null)}
+                >
+                    Cancel
+                </button>
             </div>
         </form>
     </div>
   )
 }
 
+function FormLoader({uploadPercentage}){
+    return(
+        <div className='light-black-bg h-[100vh] w-full fixed inset-0 z-50 flex items-center justify-center'>
+            <div className="md:w-[35%] w-full md:p-8 p-4 rounded md:m-0 mx-4 bg-white">
+                <h2 className="text-xl text-center">loading...</h2>
+                <div className="md:h-8 h-6 w-full my-4 bg-gray-200 border md:rounded-[1rem] rounded-[0.75rem] overflow-hidden">
+                    <div className={`h-full w-[${uploadPercentage}%] bg-blue-300 md:rounded-[1rem] rounded-[0.75rem]`}></div>
+                </div>
+                <h2 className="text-xl text-center font-bold">{uploadPercentage}%</h2>
+            </div>
+        </div>
+    )
+}
+
+
+function MessagesCard({text, type, onClose}){
+    return(
+        <div className={`flex items-center justify-between px-4 py-2 ${type} mt-4`}>
+            {text}
+            {onClose && 
+                <span className='cursor-pointer' onClick={() => onClose ? onClose(0) : {}}>
+                    <FaTimes className='text-sm' />
+                </span>
+            }
+        </div>
+    )
+}
+
+const fields = [
+    { name:'title', type:'text', placeholder:'Title...', label:'Title', colspan:'col-span-1' },
+    { name:'category', type:'select', label:'Category', options:categories2, colspan:'col-span-2' },
+    { name:'price', type:'text', placeholder:'Set price', label:'Price', colspan:'col-span-2' },
+    { name:'discription', type:'textarea', placeholder:'discribe your product...', label:'Discription' },
+]
 
 /*
 import { useState } from 'react'
@@ -51,40 +130,7 @@ import './css/forms.css'
 
 export default function Upload(){
 
-    const { setItems } = useItems()
-    const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState('')
-    const [selectedCategory, setSelectedCategory] = useState('')
-    const [uploadPercentage, setUploadPercentage] = useState(0)
-
-
-    const handleSubmit = async ev => {
-        ev.preventDefault()
-        setLoading(true)
-        try {
-            const formData = new FormData(ev.target)
-            const result = await axiosInstance.post('/items/upload', formData, postOptions).then(res => res)
-            setItems(prevItems => {
-                return [...prevItems, result.data]
-            })
-        } catch (error) {
-            setMessage(error?.response?.data)
-        }finally{
-            setLoading(false)
-        }
-    }
     
-    //AXIOS HEADER OPTIONS
-  const postOptions = {
-    widthCredentials:true, 
-    withCredentials:'include',
-    onUploadProgress:percentageLoaded => {
-      const {total, loaded} = percentageLoaded
-      const percent = Math.floor((loaded / total) * 100)
-      percent <= 100 && setUploadPercentage(percent)
-    }
-  }
-
 
   //RESET UPLOAD PERCENTAGE
   uploadPercentage === 100 && setTimeout(() => setUploadPercentage(0), 4000)

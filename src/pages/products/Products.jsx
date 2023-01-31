@@ -26,31 +26,31 @@ export default function Products() {
   const categoryQuery = searchParams.get('category')
   
   useEffect(() => {
-      if(!searchQuery && !categoryQuery){
-          setSelectedItems(items)
-      }else if(searchQuery){
-          const results = items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
-          setSelectedItems(results)
-      }else if(categoryQuery){
-          const results = items.filter(item => item.category === categoryQuery)
-          setSelectedItems(results)
-      }
-  }, [categoryQuery, items, searchQuery])
+    if(!searchQuery && !categoryQuery){
+      setSelectedItems(items)
+    }else if(searchQuery){
+      const results = items.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      setSelectedItems(results)
+    }else if(categoryQuery){
+      const results = items.filter(item => item.category === categoryQuery)
+      setSelectedItems(results)
+    }
+  }, [searchParams, categoryQuery, items, searchQuery])
 
   let content = <ItemsLoaders />
   content = loading && <ItemsLoaders />
   
-  content = (!loading && selectedItems.length >= 1) ? <Items items={selectedItems} /> : 'No products found!.'
+  content = selectedItems.length >= 1 && <Items items={selectedItems} />
     
   return (
-    <>
+    <main>
       <ProductsNav />
-      <div className='md:px-[5%] px-2 pt-4 bg-gray-100'>
+      <div className='md:px-[5%] px-2 pt-4'>
         <div className="flex items-center justify-between">
           <div className="">
-            <h1 className="md:text-2xl text-lg font-semibold">Products page</h1>
+            <h1 className="md:text-2xl text-lg font-semibold">Items</h1>
           </div>
-            <div className="flex items-center px-3 py-2 border rounded">
+            <div className="flex items-center px-3 py-2 border rounded bg-white">
             <FaFilter className="text-base mr-1" />
             <span className="text-[.8rem]">Sort A-Z</span>
           </div>
@@ -59,6 +59,6 @@ export default function Products() {
           { content }
         </div>
       </div>
-    </>
+    </main>
   )
 }

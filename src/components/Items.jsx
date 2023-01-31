@@ -10,7 +10,7 @@ export default function Items({items, bg='bg-white'}) {
         <Link className={`${bg} rounded cursor-pointer`} key={item._id} to={`/product/detail/${item._id}`}>
           <div className="md:h-[11rem] h-[8rem]">
             <LazyImage src={item.thumbnail} alt='' />
-            {/* <LazyImage src={process.env.PUBLIC_URL+'/images/laptop.jpg'} alt='' /> */}
+            {/* <LazyImage src={'http://localhost:3001/'+item.image} alt='' /> */}
           </div>
           <div className="p-2 pb-3">
             <h5 className='text-base md:font-semibold'>{item.title}</h5>

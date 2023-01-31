@@ -7,6 +7,7 @@ import { useGlobalContext } from './contexts/GlobalContextProvider';
 import Footer from './components/Footer';
 import ScrollToTop from './helpers/ScrollToTop';
 import ProductDetail from './pages/products/ProductDetail';
+import Account from './pages/account/Account';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
       {openModal && <PopupModal />}
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/account' element={<Account />} />
         <Route path='/products' element={<Products />} />
         <Route path='/product/detail/:productId' element={<ProductDetail />} />
       </Routes>
